@@ -246,6 +246,53 @@ def set_hero_img(s, page):
     s = re.sub(r'(<div class="page-hero-image"[^>]*>.*?<span class="photo-tag">)[^<]*(</span>)', lambda m: m.group(1) + 'Imagen de banco' + m.group(2), s, count=1, flags=re.S)
     return s
 
+
+# Dirección pública de la web: cámbiala aquí cuando tenga dominio propio
+SITE = 'https://sefiro888.github.io/siemprevivemalaga/'
+
+# Título que se ve al compartir el enlace (WhatsApp, Facebook…)
+OG_TITLE = {
+    'index.html': 'Floristería Siempre Vive · Flores con alma en Vélez-Málaga',
+    'ramos.html': 'Ramos de flores · Siempre Vive Vélez-Málaga',
+    'orquideas.html': 'Orquídeas · Siempre Vive Vélez-Málaga',
+    'rosas.html': 'Rosas · Siempre Vive Vélez-Málaga',
+    'variedad-de-flores.html': 'Variedad de flores · Siempre Vive Vélez-Málaga',
+    'fechas-especiales.html': 'Flores para fechas especiales · Siempre Vive',
+    'macetas.html': 'Plantas y macetas · Siempre Vive Vélez-Málaga',
+    'cactus-y-plantas.html': 'Cactus y plantas · Siempre Vive Vélez-Málaga',
+    'rosas-eternas.html': 'Rosas eternas · Siempre Vive Vélez-Málaga',
+    'packs-de-regalo.html': 'Packs de regalo con flores · Siempre Vive',
+    'bodas.html': 'Ramos de novia y arreglos de boda · Siempre Vive',
+    'eventos.html': 'Flores para eventos corporativos y sociales · Siempre Vive',
+    'galeria.html': 'Galería de trabajos · Floristería Siempre Vive',
+    'sobre-nosotros.html': 'Conoce Siempre Vive · Floristería en Vélez-Málaga',
+}
+
+def head_meta(s, page):
+    if page not in OG_TITLE:
+        return s
+    for pat in [r'\s*<meta property="og:[^>]*>', r'\s*<meta name="twitter:[^>]*>', r'\s*<link rel="canonical"[^>]*>',
+                r'\s*<link rel="icon"[^>]*>', r'\s*<link rel="apple-touch-icon"[^>]*>', r'\s*<link rel="manifest"[^>]*>',
+                r'\s*<meta name="theme-color"[^>]*>', r'\s*<!--og-->']:
+        s = re.sub(pat, '', s)
+    key = page[:-5]
+    url = SITE + ('' if page == 'index.html' else page)
+    img = f'{SITE}assets/images/compartir/{key}.jpg'
+    title = OG_TITLE[page]
+    desc = re.search(r'<meta name="description" content="([^"]*)"', s).group(1)
+    block = ('\n  <!--og--><meta name="theme-color" content="#1d3a2f">'
+             f'<link rel="canonical" href="{url}">'
+             '<link rel="icon" type="image/png" sizes="32x32" href="assets/images/compartir/favicon-32.png">'
+             '<link rel="apple-touch-icon" href="assets/images/compartir/apple-touch-icon.png">'
+             '<link rel="manifest" href="site.webmanifest">'
+             '\n  <meta property="og:type" content="website"><meta property="og:site_name" content="Floristería Siempre Vive"><meta property="og:locale" content="es_ES">'
+             f'<meta property="og:url" content="{url}"><meta property="og:title" content="{title}"><meta property="og:description" content="{desc}">'
+             f'\n  <meta property="og:image" content="{img}"><meta property="og:image:secure_url" content="{img}"><meta property="og:image:type" content="image/jpeg">'
+             f'<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="{title}">'
+             f'\n  <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{title}"><meta name="twitter:description" content="{desc}"><meta name="twitter:image" content="{img}">')
+    s = re.sub(r'(<meta name="description" content="[^"]*">)', lambda m: m.group(1) + block, s, count=1)
+    return s
+
 def process(path):
     page = os.path.basename(path)
     s = open(path, encoding='utf-8').read()
@@ -258,6 +305,7 @@ def process(path):
         s = re.sub(r'<link rel="stylesheet" href="assets/css/styles.css(\?v=[\w.]+)?">', lambda m:
                    HEAD_FONTS + '<link rel="stylesheet" href="assets/css/styles.css"><link rel="stylesheet" href="assets/css/premium.css">', s, count=1)
     s = s.replace('WAICON', WA_SVG)
+    s = head_meta(s, page)
     s = set_hero_img(s, page)
     # versión en los recursos para evitar cachés antiguas
     s = re.sub(r'assets/css/premium\.css(\?v=[\w.]+)?', f'assets/css/premium.css?v={VERSION}', s)

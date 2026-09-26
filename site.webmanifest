@@ -1,0 +1,12 @@
+{
+  "name": "Floristería Siempre Vive",
+  "short_name": "Siempre Vive",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f8f3ea",
+  "theme_color": "#1d3a2f",
+  "icons": [
+    { "src": "assets/images/compartir/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/images/compartir/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
