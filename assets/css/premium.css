@@ -52,8 +52,8 @@ em{font-style:italic}
 /* =========================================================
    CABECERA
    ========================================================= */
-.site-header{position:fixed;top:0;left:0;right:0;z-index:100;background:none;box-shadow:none!important;transition:transform .5s var(--ease)}
-.site-header.is-scrolled{transform:translateY(calc(var(--topbar) * -1))}
+.site-header{position:fixed;top:0;left:0;right:0;z-index:100;background:none;box-shadow:none!important;transition:top .5s var(--ease)}
+.site-header.is-scrolled{top:calc(var(--topbar) * -1)}
 .topbar{height:var(--topbar);background:var(--forest-deep);color:#efe6da;font-size:.64rem;letter-spacing:.2em}
 .topbar-inner{height:100%;min-height:0}
 .topbar-msg span{color:var(--rose);margin-right:.35rem}
