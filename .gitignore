@@ -1,0 +1,7 @@
+# Configuración local
+.claude/
+__pycache__/
+# Originales pesados que la web ya no usa (convertidos a WebP)
+assets/images/Imagen de ChatGPT*.png
+assets/images/adornos_floristeria_siempre_vive (2)/
+assets/images/floristeria_siempre_vive_224706.jpg
