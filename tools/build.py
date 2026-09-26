@@ -94,7 +94,7 @@ def header(page):
     <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-controls="mobile-menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div></div>
   <nav class="mobile-nav" id="mobile-menu" aria-label="Navegación móvil" inert>
-    <img class="mnav-orn mnav-orn-a" src="{ORN}esquina-sup.webp" alt="" aria-hidden="true">
+    
     <div class="mnav-head"><a class="brand" href="index.html"><img src="logo.jpeg" width="48" height="48" alt=""><span class="brand-name">Siempre Vive</span></a><button class="mnav-close" type="button" aria-label="Cerrar menú"><span></span><span></span></button></div>
     <div class="mnav-body">
       <div class="mnav-links">
@@ -163,7 +163,14 @@ def process(path):
         # imagen del encabezado en arco con adorno
         if 'hero-visual' not in s:
             s = re.sub(r'(<div class="page-hero-image"[^>]*>.*?</div>)(</section>)',
-                       lambda m: f'<div class="hero-visual">{m.group(1)}{orn(hero_orn, "orn-hero")}</div>{m.group(2)}', s, count=1, flags=re.S)
+                       lambda m: f'<div class="hero-visual">{m.group(1)}</div>{m.group(2)}', s, count=1, flags=re.S)
+        # los adornos nunca van sobre la foto del encabezado
+        s = re.sub(r'<img class="orn orn-hero"[^>]*>', '', s)
+        # adorno de la colección junto al titular de la introducción, en una zona libre
+        if 'orn-lead' not in s:
+            s, n = re.subn(r'(<div class="category-lead"[^>]*><div>.*?</h2>)', lambda m: m.group(1) + orn(hero_orn, 'orn-lead'), s, count=1, flags=re.S)
+            if not n and '<div class="about-split"><div>' in s:
+                s = re.sub(r'(<div class="about-split"><div>.*?)(</div><figure)', lambda m: m.group(1) + orn(hero_orn, 'orn-lead') + m.group(2), s, count=1, flags=re.S)
         # separador floral antes de la guía
         if 'orn-divider' not in s:
             for anchor in ['<section class="field-guide"', '<section class="about-offerings"']:

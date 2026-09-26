@@ -717,3 +717,37 @@ html.js .reveal-img.visible img{clip-path:inset(0);scale:1}
 @media (max-width:640px){.icard figure{aspect-ratio:16/10.5}.icard div{padding:1.2rem 1.2rem 1.4rem}.icard h3{font-size:1.55rem}}
 .site-header .mnav-foot a.button{display:inline-flex;align-items:center;justify-content:center;gap:.7rem;min-height:54px;padding:.95rem 1.6rem;border-radius:999px;background:#f7efe6;color:var(--forest);font-size:.74rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
 .site-header .mnav-foot a.button:hover{background:#fff}
+
+/* =========================================================
+   ADORNOS EN SU PROPIO ESPACIO (nunca sobre fotos ni textos)
+   ========================================================= */
+.orn{position:relative;inset:auto;z-index:1}
+.orn-lead{width:clamp(150px,15vw,210px);margin-top:1.8rem}
+.orn-crown{width:clamp(120px,11vw,160px);margin:0 auto .3rem}
+.orn-crown-wide{width:clamp(210px,20vw,290px)}
+.orn-side{width:clamp(130px,13vw,185px);justify-self:end}
+.orn-after{width:clamp(130px,12vw,165px);margin-top:2.4rem}
+.orn-center{margin-inline:auto}
+.sec-head.with-orn{grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:2rem;max-width:none}
+.sec-head.with-orn>div{display:grid;gap:1rem;max-width:760px}
+.sec-head.with-orn>div h2,.sec-head.with-orn>div p{margin:0}
+.ideas .sec-head.with-orn{padding-right:0}
+.gallery-home .sec-head.with-orn{padding-right:0}
+.map-col{display:grid}
+.category-cta{grid-template-columns:minmax(0,1fr) auto;column-gap:3rem;row-gap:1.2rem;margin-top:3rem}
+.category-cta>.orn-cta{grid-column:2;grid-row:1;justify-self:center;align-self:end;top:auto;right:auto;width:clamp(110px,10vw,150px)}
+.category-cta>div{grid-column:1;grid-row:1 / span 2;align-self:center}
+.category-cta>.button{grid-column:2;grid-row:2;align-self:start}
+@media (max-width:780px){
+  .category-cta{grid-template-columns:1fr;margin-top:3rem;padding:2rem 1.4rem 1.6rem}
+  .category-cta>.orn-cta{grid-column:1;grid-row:auto;order:-1;justify-self:center;width:110px;top:auto;right:auto}
+  .category-cta>div,.category-cta>.button{grid-column:1;grid-row:auto}
+}
+@media (max-width:640px){
+  .sec-head.with-orn{grid-template-columns:1fr;gap:.6rem}
+  .sec-head.with-orn>.orn-side{order:-1;justify-self:end;width:104px;margin-bottom:-.6rem}
+  .orn-lead{width:130px;margin-top:1.2rem}
+  .orn-crown{width:110px}
+  .orn-crown-wide{width:200px}
+  .orn-after{width:120px;margin-top:1.8rem}
+}
